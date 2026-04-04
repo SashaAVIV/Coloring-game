@@ -1,0 +1,22 @@
+{
+  "name": "coloring-game",
+  "version": "1.0.0",
+  "description": "A mobile-friendly coloring game app.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:40027/git/SashaAVIV/Coloring-game"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3"
+  }
+}
