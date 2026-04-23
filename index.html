@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מד סיכון הפסקת האש | איראן – ארה״ב</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <div>
+        <h1>מד סיכון הפסקת האש</h1>
+        <span class="sub">איראן &nbsp;&mdash;&nbsp; ארצות הברית &nbsp;&middot;&nbsp; ניטור פתוח (OSINT)</span>
+      </div>
+    </div>
+    <div class="status">
+      <span class="pulse"></span>
+      <span id="last-update">עדכון אחרון: --</span>
+    </div>
+  </header>
+
+  <main class="dashboard">
+
+    <section class="hero card">
+      <div class="hero-left">
+        <div class="hero-label">סיכוי התפרצות ב-72 שעות הקרובות</div>
+        <div class="hero-score">
+          <div class="gauge-wrap">
+            <svg class="gauge" viewBox="0 0 200 120">
+              <defs>
+                <linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%"  stop-color="#34d399"/>
+                  <stop offset="50%" stop-color="#fbbf24"/>
+                  <stop offset="100%" stop-color="#ef4444"/>
+                </linearGradient>
+              </defs>
+              <path d="M20,110 A80,80 0 0 1 180,110" fill="none" stroke="#1f2937" stroke-width="18" stroke-linecap="round"/>
+              <path id="gauge-arc" d="M20,110 A80,80 0 0 1 180,110" fill="none" stroke="url(#gaugeGrad)" stroke-width="18" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+              <g id="gauge-needle" transform="rotate(-90 100 110)">
+                <line x1="100" y1="110" x2="100" y2="40" stroke="#f9fafb" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="100" cy="110" r="6" fill="#f9fafb"/>
+              </g>
+            </svg>
+            <div class="gauge-value">
+              <span id="probability">--</span><span class="pct">%</span>
+              <div class="risk-level" id="risk-level">טוען...</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-delta">
+          <span id="delta-arrow">·</span>
+          <span id="delta-value">--</span>
+          <span class="delta-label">שינוי מול 24 שעות קודמות</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-headline" id="hero-headline">מחשב את המצב...</div>
+        <ul class="driver-list" id="top-drivers"></ul>
+      </div>
+    </section>
+
+    <section class="card factors">
+      <h2>גורמי המשקל &mdash; תרומה לציון</h2>
+      <div class="factor-rows" id="factor-rows"></div>
+      <p class="methodology">
+        הציון הינו ממוצע משוקלל של 7 אינדיקטורים. כל אינדיקטור מתועדכן ממקורות OSINT פתוחים
+        (AIS ימי, ADS-B, EIA, סוכנויות ידיעות, סבא״א). טווח: 0–100.
+      </p>
+    </section>
+
+    <section class="grid-2">
+      <div class="card map-card">
+        <div class="card-head">
+          <h2>כוחות ארה״ב במזרח התיכון</h2>
+          <div class="legend">
+            <span><i class="dot carrier"></i>נושאת מטוסים</span>
+            <span><i class="dot ddg"></i>משחתת / סיור</span>
+            <span><i class="dot amph"></i>ספינת נחיתה</span>
+            <span><i class="dot base"></i>בסיס אווירי</span>
+          </div>
+        </div>
+        <div id="map"></div>
+        <div class="map-note" id="map-note">מקור: Naval News, USNI Fleet Tracker, FlightRadar24 · דגימות OSINT</div>
+      </div>
+
+      <div class="card air-card">
+        <div class="card-head">
+          <h2>פעילות אווירית אסטרטגית (24 שעות)</h2>
+        </div>
+        <div class="air-grid" id="air-grid"></div>
+        <div class="sparkline-wrap">
+          <div class="sparkline-label">טיסות תדלוק (KC-135/KC-46) לאזור</div>
+          <canvas id="tanker-spark" height="60"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card oil-card">
+        <div class="card-head">
+          <h2>מחירי נפט &mdash; אינדיקטור שוק</h2>
+          <div class="pill" id="oil-pill">--</div>
+        </div>
+        <div class="oil-stats">
+          <div class="oil-stat">
+            <div class="k">Brent</div>
+            <div class="v" id="brent-price">--</div>
+            <div class="c" id="brent-change">--</div>
+          </div>
+          <div class="oil-stat">
+            <div class="k">WTI</div>
+            <div class="v" id="wti-price">--</div>
+            <div class="c" id="wti-change">--</div>
+          </div>
+          <div class="oil-stat">
+            <div class="k">תנודתיות OVX</div>
+            <div class="v" id="ovx-price">--</div>
+            <div class="c" id="ovx-change">--</div>
+          </div>
+        </div>
+        <canvas id="oil-chart" height="140"></canvas>
+      </div>
+
+      <div class="card proxy-card">
+        <div class="card-head">
+          <h2>פעילות פרוקסי ורטוריקה</h2>
+        </div>
+        <div class="proxy-grid" id="proxy-grid"></div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card news-card">
+        <div class="card-head">
+          <h2>כותרות ואיתותים דיפלומטיים</h2>
+        </div>
+        <ul class="news-list" id="news-list"></ul>
+      </div>
+
+      <div class="card nuke-card">
+        <div class="card-head">
+          <h2>ניטור גרעיני ואורניום</h2>
+        </div>
+        <div class="nuke-stats" id="nuke-stats"></div>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>העשרה ל-60%+ (ק״ג)</span>
+            <span id="enrich-val">--</span>
+          </div>
+          <div class="progress"><div class="progress-bar" id="enrich-bar"></div></div>
+          <div class="progress-hint">סף פריצה תיאורטי לנשק: ~42 ק״ג</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card history-card">
+      <div class="card-head">
+        <h2>היסטוריית הציון &mdash; 30 ימים</h2>
+        <div class="history-events" id="history-events"></div>
+      </div>
+      <canvas id="history-chart" height="100"></canvas>
+    </section>
+
+    <footer class="footer">
+      <div>
+        <strong>כתב ויתור:</strong>
+        זהו כלי הערכה לצורכי מידע בלבד. הנתונים נאספים ממקורות ציבוריים (OSINT) ועוברים עיבוד סטטיסטי.
+        אין לראות בציון תחזית מחייבת, המלצה צבאית או בסיס להחלטות השקעה.
+      </div>
+      <div class="footer-meta">
+        גרסה 1.0 &middot; מודל משוקלל v1 &middot; רענון אוטומטי כל 60 שניות
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
