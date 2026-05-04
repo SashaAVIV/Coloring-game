@@ -490,7 +490,7 @@ h2 { font-size: 15px; color: var(--text); letter-spacing: 0.3px; }
   position: absolute;
   inset: 0;
   left: auto;
-  right: calc(100% * (1 - 42/200));
+  right: calc(100% * (1 - 60/80));
   border-inline-end: 2px dashed rgba(239,68,68,0.6);
 }
 .progress-bar {

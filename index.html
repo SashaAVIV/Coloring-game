@@ -69,8 +69,8 @@
       <h2>גורמי המשקל &mdash; תרומה לציון</h2>
       <div class="factor-rows" id="factor-rows"></div>
       <p class="methodology">
-        הציון הינו ממוצע משוקלל של 7 אינדיקטורים. כל אינדיקטור מתועדכן ממקורות OSINT פתוחים
-        (AIS ימי, ADS-B, EIA, סוכנויות ידיעות, סבא״א). טווח: 0–100.
+        הציון הינו ממוצע משוקלל של 6 אינדיקטורים. כל אינדיקטור מתועדכן ממקורות OSINT פתוחים
+        (AIS ימי, ADS-B, EIA, Lloyd's, סוכנויות ידיעות, הצהרות רשמיות). טווח: 0–100.
       </p>
     </section>
 
@@ -143,18 +143,19 @@
         <ul class="news-list" id="news-list"></ul>
       </div>
 
-      <div class="card nuke-card">
+      <div class="card hormuz-card">
         <div class="card-head">
-          <h2>ניטור גרעיני ואורניום</h2>
+          <h2>מצרי הורמוז &mdash; Project Freedom</h2>
+          <div class="pill up" id="hormuz-pill">פעיל</div>
         </div>
-        <div class="nuke-stats" id="nuke-stats"></div>
+        <div class="nuke-stats" id="hormuz-stats"></div>
         <div class="progress-wrap">
           <div class="progress-label">
-            <span>העשרה ל-60%+ (ק״ג)</span>
-            <span id="enrich-val">--</span>
+            <span>ספינות תקועות / קיבולת תורנות</span>
+            <span id="stuck-val">--</span>
           </div>
-          <div class="progress"><div class="progress-bar" id="enrich-bar"></div></div>
-          <div class="progress-hint">סף פריצה תיאורטי לנשק: ~42 ק״ג</div>
+          <div class="progress"><div class="progress-bar" id="stuck-bar"></div></div>
+          <div class="progress-hint">קיבולת תורנות מקסימלית: ~80 ספינות בו-זמנית</div>
         </div>
       </div>
     </section>

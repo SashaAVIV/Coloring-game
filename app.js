@@ -331,9 +331,9 @@ function renderNews(news) {
   `).join("");
 }
 
-/* ---------- Nuclear ---------- */
-function renderNuclear(stats, enrichKg) {
-  const grid = document.getElementById("nuke-stats");
+/* ---------- Hormuz Status ---------- */
+function renderHormuz(stats, stuckShips) {
+  const grid = document.getElementById("hormuz-stats");
   grid.innerHTML = stats.map(s => `
     <div class="nuke-stat">
       <div class="k">${s.k}</div>
@@ -341,9 +341,9 @@ function renderNuclear(stats, enrichKg) {
     </div>
   `).join("");
 
-  const pct = Math.min(100, (enrichKg / 200) * 100);
-  document.getElementById("enrich-bar").style.width = pct + "%";
-  document.getElementById("enrich-val").textContent = `${enrichKg} / 200`;
+  const pct = Math.min(100, (stuckShips / 80) * 100);
+  document.getElementById("stuck-bar").style.width = pct + "%";
+  document.getElementById("stuck-val").textContent = `${stuckShips} / 80`;
 }
 
 /* ---------- History ---------- */
@@ -430,7 +430,7 @@ function render() {
   renderOilChart(data.oil.history);
   renderProxies(data.proxies);
   renderNews(data.news);
-  renderNuclear(data.nukeStats, data.enrichKg);
+  renderHormuz(data.hormuzStats, data.stuckShips);
   renderHistory(data.history, data.historyEvents);
 }
 

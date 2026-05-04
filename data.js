@@ -115,56 +115,50 @@ const DATA = (() => {
   ];
 
   // ============== ציוני גורמים (0-100) ==============
-  // הגורמים נבנים מתוך אותו זרע אך עם טווחים שונים, כך שציון כולל יישאר עקבי
+  // טווחים מכוילים לאירועים בפועל (4 במאי 2026): Project Freedom פעיל,
+  // תקיפת רחפנים על מכלית ADNOC, רטוריקה "blast them away", אמירויות פרשה מ-OPEC
   const factors = [
     {
       key: "naval",
       name: "נוכחות ימית בזירה",
-      desc: "נושאות מטוסים, משחתות ו-ARG במפרץ הפרסי / ים סוף / מזרח הים התיכון",
-      weight: 0.20,
-      score: Math.round(between(62, 82))
+      desc: "Project Freedom פעיל בהורמוז · 2 CSG פרוסות · 4 משחתות בים סוף ומפרץ פרסי",
+      weight: 0.22,
+      score: Math.round(between(86, 95))
     },
     {
       key: "air",
       name: "תעופה אסטרטגית",
-      desc: "מפציצים, מטוסי תדלוק KC-135/46, תובלת C-17 ו-AWACS",
-      weight: 0.20,
-      score: Math.round(between(58, 78))
-    },
-    {
-      key: "oil",
-      name: "תנודתיות שוק האנרגיה",
-      desc: "Brent / WTI / OVX · פרמיית סיכון באספקה",
-      weight: 0.10,
-      score: Math.round(between(45, 72))
+      desc: "מפציצים B-2/B-52, KC-135/46 בקצב מבצעי, תובלת C-17/C-5, AWACS מעל הורמוז",
+      weight: 0.22,
+      score: Math.round(between(76, 88))
     },
     {
       key: "proxy",
-      name: "פעילות פרוקסי",
-      desc: "חות׳ים, חיזבאללה, מיליציות עיראק, כוח קודס",
-      weight: 0.15,
-      score: Math.round(between(55, 85))
+      name: "פעילות פרוקסי / IRGC",
+      desc: "רחפני IRGC על ADNOC · חות׳ים על שייט · מיליציות עיראק על בסיסי ארה״ב",
+      weight: 0.17,
+      score: Math.round(between(72, 84))
     },
     {
       key: "rhetoric",
       name: "רטוריקה דיפלומטית ואיומים רשמיים",
-      desc: "הודעות בית הלבן, משרד החוץ האיראני, חמינאי, Telegram של IRGC",
-      weight: 0.15,
-      score: Math.round(between(50, 80))
+      desc: "טראמפ: 'blast them away' · UAE: 'פיראטיות של IRGC' · חמינאי: 'התשובה תהיה כואבת'",
+      weight: 0.17,
+      score: Math.round(between(82, 94))
     },
     {
-      key: "nuke",
-      name: "התקדמות גרעינית",
-      desc: "מלאי העשרה 60%+, גישת סבא״א, תנועת צנטריפוגות",
-      weight: 0.10,
-      score: Math.round(between(60, 88))
+      key: "oil",
+      name: "תנודתיות שוק האנרגיה",
+      desc: "Brent / WTI / OVX · פרמיית סיכון בהורמוז · מכליות מנותבות מחדש",
+      weight: 0.11,
+      score: Math.round(between(68, 84))
     },
     {
       key: "alerts",
       name: "התרעות טילים / רחפנים",
-      desc: "שיגורים לישראל / ברית המפרץ / שייט מסחרי",
-      weight: 0.10,
-      score: Math.round(between(30, 70))
+      desc: "תקיפות פעילות ב-7י׳: ADNOC, USS Mason · שיגורים מתימן · רחפנים בעיראק",
+      weight: 0.11,
+      score: Math.round(between(78, 92))
     },
   ];
 
@@ -185,14 +179,14 @@ const DATA = (() => {
     return Math.round(between(14, 32) + i * 0.4);
   });
 
-  // ============== מחירי נפט ==============
-  const brentBase = 82;
-  const wtiBase = 78;
-  const brent = jitter(brentBase, 0.08);
-  const wti = jitter(wtiBase, 0.08);
-  const ovx = between(38, 58);
-  const brentChange = (rand() - 0.3) * 4;
-  const wtiChange = (rand() - 0.3) * 4;
+  // ============== מחירי נפט (משקפים פרמיית הורמוז) ==============
+  const brentBase = 96;
+  const wtiBase = 92;
+  const brent = jitter(brentBase, 0.06);
+  const wti = jitter(wtiBase, 0.06);
+  const ovx = between(58, 78);
+  const brentChange = (rand() + 0.1) * 4;
+  const wtiChange = (rand() + 0.1) * 4;
   const ovxChange = (rand() - 0.3) * 6;
 
   const oilHistory = Array.from({length: 30}, (_, i) => {
@@ -206,87 +200,93 @@ const DATA = (() => {
   const levelFromScore = (s) => s > 80 ? 'CRIT' : s > 65 ? 'HIGH' : s > 45 ? 'MED' : 'LOW';
   const proxies = [
     {
+      name: "IRGC (משמרות המהפכה)",
+      region: "מצרי הורמוז",
+      metric: "תקיפות רחפנים על שייט (7י׳)",
+      value: Math.round(between(3, 9)),
+      level: null
+    },
+    {
       name: "חות׳ים (תימן)",
       region: "ים סוף · באב אל-מנדב",
       metric: "שיגורים לשייט (7י׳)",
-      value: Math.round(between(6, 18)),
+      value: Math.round(between(8, 22)),
       level: null
     },
     {
-      name: "חיזבאללה",
-      region: "גבול לבנון",
-      metric: "מטחים לישראל (7י׳)",
-      value: Math.round(between(0, 8)),
-      level: null
-    },
-    {
-      name: "כת׳איב חיזבאללה",
-      region: "מיליציות עיראק",
+      name: "מיליציות עיראק (כת׳איב חיזבאללה)",
+      region: "אל-אסד · עין אל-אסד",
       metric: "תקיפות על בסיסי ארה״ב (7י׳)",
-      value: Math.round(between(2, 12)),
+      value: Math.round(between(4, 14)),
       level: null
     },
     {
       name: "כוח קודס",
-      region: "סוריה / עיראק",
+      region: "סוריה / עיראק / לבנון",
       metric: "תנועות מודיעין (אינדקס)",
-      value: Math.round(between(55, 92)),
+      value: Math.round(between(72, 95)),
       level: null
     },
   ];
   proxies.forEach(p => p.level = levelFromScore(
     p.metric.includes("אינדקס") ? p.value :
-    p.metric.includes("שיגורים") ? Math.min(100, p.value * 6) :
-    p.metric.includes("מטחים") ? Math.min(100, p.value * 15) :
-    Math.min(100, p.value * 10)
+    p.metric.includes("רחפנים") ? Math.min(100, 60 + p.value * 6) :
+    p.metric.includes("שיגורים") ? Math.min(100, p.value * 5) :
+    Math.min(100, p.value * 8)
   ));
 
-  // ============== חדשות / איתותים ==============
+  // ============== חדשות / איתותים (4 במאי 2026) ==============
   const newsPool = [
-    { time: "שעה", title: "נשיא ארה״ב: 'כל תקיפה על כוחותינו תיתקל בתגובה חסרת תקדים'", tag: "hawk" },
-    { time: "2ש׳", title: "חמינאי: 'משמרות המהפכה ערוכים לכל תרחיש'", tag: "hawk" },
-    { time: "3ש׳", title: "משלחת עומאנית נחתה בטהרן לשיחות חשאיות", tag: "dove" },
-    { time: "4ש׳", title: "דובר הפנטגון: 'הפסקת האש מחזיקה, אך מוכנים להגיב'", tag: "neutral" },
-    { time: "6ש׳", title: "חות׳ים איימו על נתיב השיט בבאב אל-מנדב", tag: "hawk" },
-    { time: "8ש׳", title: "סבא״א: 'גישה חלקית לאתר פורדו במהלך הסיור האחרון'", tag: "hawk" },
-    { time: "10ש׳", title: "סוחרי נפט מדווחים על עליית פרמיית סיכון", tag: "neutral" },
-    { time: "12ש׳", title: "איראן: 'מוכנים לשוב לשיחות אם הסנקציות יוסרו'", tag: "dove" },
-    { time: "14ש׳", title: "CENTCOM: תרגיל משולב עם חילות סעודיים ואמירתים", tag: "neutral" },
-    { time: "18ש׳", title: "מקור בממשל: 'איראן העבירה ציוד רגיש מאתר איספהאן'", tag: "hawk" },
-    { time: "22ש׳", title: "שליח ה-EU: 'חלון הזדמנויות צר אך קיים'", tag: "dove" },
+    { time: "שעה", title: "אמירויות: 'תקיפת הרחפנים על מכלית ADNOC היא מעשה פיראטיות של IRGC'", tag: "hawk" },
+    { time: "2ש׳", title: "טראמפ: 'אם השיחות ייכשלו — אפוצץ אותם'", tag: "hawk" },
+    { time: "3ש׳", title: "Project Freedom: ספינה אמריקאית מלווה מכלית ראשונה דרך הורמוז", tag: "neutral" },
+    { time: "4ש׳", title: "טהרן: 'משימת הורמוז של טראמפ מהווה הפרת הפסקת אש'", tag: "hawk" },
+    { time: "6ש׳", title: "אנואר ג'רגאש (יועץ נשיא אמירויות): 'לא ניתן לסמוך על איראן'", tag: "hawk" },
+    { time: "8ש׳", title: "טראמפ: 'אנו מנהלים דיונים מאוד חיוביים עם איראן'", tag: "dove" },
+    { time: "10ש׳", title: "Brent חצה $96 — פרמיית סיכון בהורמוז ברמת שיא", tag: "neutral" },
+    { time: "12ש׳", title: "טראמפ: 'לא מרוצה מהצעת השלום של איראן'", tag: "hawk" },
+    { time: "14ש׳", title: "ארה״ב מכחישה שפריגטה נפגעה ע״י טילים בהורמוז", tag: "neutral" },
+    { time: "18ש׳", title: "אמירויות פרשה רשמית מ-OPEC לאחר עשרות שנים", tag: "neutral" },
+    { time: "22ש׳", title: "עומאן: 'ערוץ דיפלומטי עדיין פתוח בין וושינגטון לטהרן'", tag: "dove" },
+    { time: "26ש׳", title: "טראמפ לקונגרס: 'עוינויות 28 בפברואר הסתיימו עם הפסקת אש'", tag: "neutral" },
   ];
   // ערבוב מבוסס זרע לשמירה על יציבות בטווח הדקה
   const news = newsPool.sort(() => rand() - 0.5).slice(0, 8);
 
-  // ============== גרעין ==============
-  const enrichKg = Math.round(between(128, 182));
-  const nukeStats = [
-    { k: "העשרה 60%+", v: `${enrichKg} ק״ג`},
-    { k: "העשרה 20%", v: `${Math.round(between(600, 900))} ק״ג`},
-    { k: "צנטריפוגות פעילות", v: `${Math.round(between(11000, 15000))}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")},
-    { k: "זמן פריצה מוערך", v: `${(between(0.8, 2.4)).toFixed(1)} חודשים`},
+  // ============== מצרי הורמוז (Strait of Hormuz Status) ==============
+  const stuckShips = Math.round(between(38, 64));
+  const dronesIntercepted = Math.round(between(11, 24));
+  const hormuzStats = [
+    { k: "ספינות מסחרית תקועות", v: `${stuckShips}`},
+    { k: "רחפנים יורטו (7י׳)", v: `${dronesIntercepted}`},
+    { k: "ביטוח מלחמה Lloyd's", v: `${(between(2.4, 4.8)).toFixed(1)}% מערך מטען`},
+    { k: "ניתוב מחדש דרך כף התקווה", v: `${Math.round(between(28, 52))} מכליות`},
   ];
 
   // ============== היסטוריה 30 ימים ==============
   const history = Array.from({length: 30}, (_, i) => {
     const t = i / 29;
-    const base = 45 + t * 25;
-    return Math.max(25, Math.min(95, Math.round(base + Math.sin(i * 0.7) * 7 + (rand() - 0.5) * 6)));
+    // יום 1 = 7 באפריל (יום הפסקת אש) → ירידה → עליה הדרגתית עם הסלמה
+    const base = 55 + t * 30;
+    return Math.max(35, Math.min(96, Math.round(base + Math.sin(i * 0.55) * 8 + (rand() - 0.5) * 5)));
   });
   history[history.length - 1] = overallScore;
 
   const historyEvents = [
-    "20/4 · תקיפה מיוחסת באיספהאן",
-    "15/4 · מתקפה איראנית על ישראל",
-    "5/4 · תקיפה בדמשק",
+    "4/5 · תקיפת רחפנים על ADNOC",
+    "3/5 · תחילת Project Freedom",
+    "29/4 · אמירויות יוצאת מ-OPEC",
+    "21/4 · הפסקת אש הוארכה",
+    "7/4 · הפסקת אש ראשונית",
   ];
 
   // ============== כותרות דינמיות ==============
   const headlines = [
-    "פריסה מוגברת של צי ארה״ב במפרץ — עקומת הסיכון במגמת עלייה",
-    "איתותים מעורבים: ערוצי דיפלומטיה פעילים במקביל להתגברות רטוריקה",
-    "נוכחות מפציצים ב-Diego Garcia ובאל-עודייד מעל הממוצע החודשי",
-    "שיגורי חות׳ים ומיליציות עיראק דוחפים את המדד כלפי מעלה",
+    "Project Freedom פעיל — חיל ים אמריקאי מלווה מכליות דרך הורמוז",
+    "אמירויות מאשימה את IRGC ב'פיראטיות' לאחר תקיפת רחפנים על ADNOC",
+    "טראמפ: 'אם השיחות ייכשלו — אפוצץ אותם' · רטוריקה ברמת שיא",
+    "מנותב מחדש: עשרות מכליות בוחרות בכף התקווה במקום הורמוז",
+    "פרישת אמירויות מ-OPEC משנה את מאזן הברית במפרץ",
   ];
   const headline = headlines[Math.floor(rand() * headlines.length)];
 
@@ -309,8 +309,8 @@ const DATA = (() => {
     },
     proxies,
     news,
-    nukeStats,
-    enrichKg,
+    hormuzStats,
+    stuckShips,
     history,
     historyEvents,
     headline,
