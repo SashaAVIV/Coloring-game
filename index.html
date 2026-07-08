@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>מד סיכון הפסקת האש | איראן – ארה״ב</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  
+  
+  <link rel="stylesheet" href="vendor/leaflet.css" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -15,8 +15,8 @@
     <div class="brand">
       <div class="logo-dot"></div>
       <div>
-        <h1>מד סיכון הפסקת האש</h1>
-        <span class="sub">איראן &nbsp;&mdash;&nbsp; ארצות הברית &nbsp;&middot;&nbsp; ניטור פתוח (OSINT)</span>
+        <h1>מד עוצמת הסכסוך · איראן — ארה״ב</h1>
+        <span class="sub">לחימה פעילה מ-7/7/2026 &nbsp;&middot;&nbsp; ניטור OSINT בזמן אמת</span>
       </div>
     </div>
     <div class="status">
@@ -29,7 +29,7 @@
 
     <section class="hero card">
       <div class="hero-left">
-        <div class="hero-label">סיכוי התפרצות ב-72 שעות הקרובות</div>
+        <div class="hero-label">מדד עוצמת הסכסוך &middot; לייב</div>
         <div class="hero-score">
           <div class="gauge-wrap">
             <svg class="gauge" viewBox="0 0 200 120">
@@ -56,7 +56,7 @@
         <div class="hero-delta">
           <span id="delta-arrow">·</span>
           <span id="delta-value">--</span>
-          <span class="delta-label">שינוי מול 24 שעות קודמות</span>
+          <span class="delta-label">שינוי מול אתמול</span>
         </div>
       </div>
       <div class="hero-right">
@@ -69,8 +69,9 @@
       <h2>גורמי המשקל &mdash; תרומה לציון</h2>
       <div class="factor-rows" id="factor-rows"></div>
       <p class="methodology">
-        הציון הינו ממוצע משוקלל של 6 אינדיקטורים. כל אינדיקטור מתועדכן ממקורות OSINT פתוחים
-        (AIS ימי, ADS-B, EIA, Lloyd's, סוכנויות ידיעות, הצהרות רשמיות). טווח: 0–100.
+        הציון מבטא עוצמת סכסוך פעיל (0-100). 0-20 שלום · 20-40 מתח קר ·
+        40-60 מלחמת פרוקסי · 60-80 מלחמה מוגבלת פעילה · 80-100 מלחמה אזורית כוללת.
+        נאסף מ-7 אינדיקטורים ממקורות OSINT.
       </p>
     </section>
 
@@ -83,6 +84,7 @@
             <span><i class="dot ddg"></i>משחתת / סיור</span>
             <span><i class="dot amph"></i>ספינת נחיתה</span>
             <span><i class="dot base"></i>בסיס אווירי</span>
+            <span><i class="dot strike"></i>מטרה שנפגעה</span>
           </div>
         </div>
         <div id="map"></div>
@@ -145,17 +147,17 @@
 
       <div class="card hormuz-card">
         <div class="card-head">
-          <h2>מצרי הורמוז &mdash; Project Freedom</h2>
-          <div class="pill up" id="hormuz-pill">פעיל</div>
+          <h2>לוח בזקים &mdash; 24 שעות אחרונות</h2>
+          <div class="pill up" id="hormuz-pill">לחימה פעילה</div>
         </div>
         <div class="nuke-stats" id="hormuz-stats"></div>
         <div class="progress-wrap">
           <div class="progress-label">
-            <span>ספינות תקועות / קיבולת תורנות</span>
+            <span>ספינות תקועות במפרץ / קיבולת</span>
             <span id="stuck-val">--</span>
           </div>
           <div class="progress"><div class="progress-bar" id="stuck-bar"></div></div>
-          <div class="progress-hint">קיבולת תורנות מקסימלית: ~80 ספינות בו-זמנית</div>
+          <div class="progress-hint">מעל 90 = הורמוז סגור אפקטיבית לתעבורה מסחרית</div>
         </div>
       </div>
     </section>
@@ -181,8 +183,8 @@
 
   </main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="vendor/leaflet.js"></script>
+  <script src="vendor/chart.umd.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>

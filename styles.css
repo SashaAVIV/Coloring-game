@@ -285,6 +285,7 @@ h2 { font-size: 15px; color: var(--text); letter-spacing: 0.3px; }
 .legend .dot.ddg { background: #fbbf24; }
 .legend .dot.amph { background: #f97316; }
 .legend .dot.base { background: #38bdf8; }
+.legend .dot.strike { background: #dc2626; box-shadow: 0 0 8px rgba(220,38,38,0.9); }
 .map-note {
   margin-top: 10px;
   font-size: 11px;
@@ -321,6 +322,17 @@ h2 { font-size: 15px; color: var(--text); letter-spacing: 0.3px; }
 .asset-marker.carrier {
   width: 30px; height: 30px; font-size: 11px;
   animation: carrierPulse 2.4s ease-in-out infinite;
+}
+.asset-marker.strike {
+  background: #dc2626;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: 0 0 0 3px rgba(220,38,38,0.35), 0 0 20px rgba(220,38,38,0.9);
+  animation: strikePulse 1.4s ease-in-out infinite;
+}
+@keyframes strikePulse {
+  0%,100% { box-shadow: 0 0 0 3px rgba(220,38,38,0.35), 0 0 20px rgba(220,38,38,0.9); transform: scale(1); }
+  50%     { box-shadow: 0 0 0 10px rgba(220,38,38,0.05), 0 0 30px rgba(220,38,38,1); transform: scale(1.15); }
 }
 @keyframes carrierPulse {
   0%,100% { box-shadow: 0 0 0 3px rgba(239,68,68,0.25), 0 0 14px rgba(239,68,68,0.4); }
@@ -490,7 +502,7 @@ h2 { font-size: 15px; color: var(--text); letter-spacing: 0.3px; }
   position: absolute;
   inset: 0;
   left: auto;
-  right: calc(100% * (1 - 60/80));
+  right: calc(100% * (1 - 90/120));
   border-inline-end: 2px dashed rgba(239,68,68,0.6);
 }
 .progress-bar {

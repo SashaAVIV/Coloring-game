@@ -103,62 +103,91 @@ const DATA = (() => {
       hebName: "בסיס עלי אל-סאלם (כווית)",
       type: "base",
       lat: 29.347, lng: 47.52,
-      note: "A-10 · מטוסי תובלה"
+      note: "⚠️ נפגע · 14 טילים בליסטיים איראניים"
     },
     {
       name: "Diego Garcia",
       hebName: "דייגו גרסיה",
       type: "base",
       lat: -7.32, lng: 72.42,
-      note: "B-2 Spirit · סיקור אסטרטגי"
+      note: "B-2 Spirit · תקיפות אסטרטגיות באיראן"
+    },
+    // מטרות איראניות שנפגעו על-ידי ארה״ב
+    {
+      name: "IRGC-Navy HQ Bandar Abbas",
+      hebName: "🎯 בנדר עבאס — מטה IRGC-Navy",
+      type: "strike",
+      lat: 27.183, lng: 56.267,
+      note: "נפגע · פיקוד חיל הים של IRGC"
+    },
+    {
+      name: "Bushehr Naval Base",
+      hebName: "🎯 בסיס הימי בושהר",
+      type: "strike",
+      lat: 28.977, lng: 50.836,
+      note: "נפגע · מערכות טילים אנטי-ימיים"
+    },
+    {
+      name: "Chabahar Coastal Radar",
+      hebName: "🎯 רדארים חופיים צ'אבהאר",
+      type: "strike",
+      lat: 25.29, lng: 60.643,
+      note: "נפגע · רדארים ומערכות זיהוי חופיות"
     },
   ];
 
   // ============== ציוני גורמים (0-100) ==============
-  // טווחים מכוילים לאירועים בפועל (4 במאי 2026): Project Freedom פעיל,
-  // תקיפת רחפנים על מכלית ADNOC, רטוריקה "blast them away", אמירויות פרשה מ-OPEC
+  // עודכן לאירועי 7-8 ביולי 2026: הפסקת אש נשברה, ארה״ב תקפה 80+ מטרות באיראן,
+  // איראן הגיבה על בסיסי ארה״ב במפרץ, מוג׳תבא חמינאי (מנהיג חדש) נעדר
   const factors = [
     {
-      key: "naval",
-      name: "נוכחות ימית בזירה",
-      desc: "Project Freedom פעיל בהורמוז · 2 CSG פרוסות · 4 משחתות בים סוף ומפרץ פרסי",
-      weight: 0.22,
-      score: Math.round(between(86, 95))
+      key: "us_strikes",
+      name: "תקיפות אמריקאיות באיראן",
+      desc: "80+ מטרות נפגעו · הגנ״א, פיקוד ובקרה, רדארים חופיים, 60+ סירות IRGC",
+      weight: 0.20,
+      score: Math.round(between(88, 96))
     },
     {
-      key: "air",
-      name: "תעופה אסטרטגית",
-      desc: "מפציצים B-2/B-52, KC-135/46 בקצב מבצעי, תובלת C-17/C-5, AWACS מעל הורמוז",
-      weight: 0.22,
-      score: Math.round(between(76, 88))
+      key: "iran_strikes",
+      name: "תקיפות איראניות על ארה״ב ובעלות ברית",
+      desc: "3 מכליות תוקפו בהורמוז · טילים על עלי אל-סאלם ואל-עודייד · כווית בהתרעה",
+      weight: 0.20,
+      score: Math.round(between(80, 92))
     },
     {
       key: "proxy",
-      name: "פעילות פרוקסי / IRGC",
-      desc: "רחפני IRGC על ADNOC · חות׳ים על שייט · מיליציות עיראק על בסיסי ארה״ב",
-      weight: 0.17,
-      score: Math.round(between(72, 84))
+      name: "התכנסות פרוקסי לפעולה",
+      desc: "חות׳ים בים סוף · חיזבאללה בגבול · כת׳איב חיזבאללה בעיראק · IRGC-Q",
+      weight: 0.15,
+      score: Math.round(between(75, 88))
     },
     {
-      key: "rhetoric",
-      name: "רטוריקה דיפלומטית ואיומים רשמיים",
-      desc: "טראמפ: 'blast them away' · UAE: 'פיראטיות של IRGC' · חמינאי: 'התשובה תהיה כואבת'",
-      weight: 0.17,
+      key: "regime",
+      name: "יציבות משטר איראני",
+      desc: "מוג׳תבא חמינאי (מנהיג חדש) נעדר · לוויה 4-9/7 · פילוגים בין IRGC וממשלה",
+      weight: 0.15,
       score: Math.round(between(82, 94))
     },
     {
       key: "oil",
-      name: "תנודתיות שוק האנרגיה",
-      desc: "Brent / WTI / OVX · פרמיית סיכון בהורמוז · מכליות מנותבות מחדש",
-      weight: 0.11,
-      score: Math.round(between(68, 84))
+      name: "הידרדרות שוק האנרגיה",
+      desc: "Brent > $110 · ארה״ב שללה יכולת מכירת נפט איראני · פאניקה בשוק",
+      weight: 0.10,
+      score: Math.round(between(82, 94))
     },
     {
-      key: "alerts",
-      name: "התרעות טילים / רחפנים",
-      desc: "תקיפות פעילות ב-7י׳: ADNOC, USS Mason · שיגורים מתימן · רחפנים בעיראק",
-      weight: 0.11,
-      score: Math.round(between(78, 92))
+      key: "regional",
+      name: "מעורבות אזורית",
+      desc: "ישראל בכוננות · ערה״ס וקטאר בנטרליות מתוחה · אמירויות מחוץ ל-OPEC · עיראק מאוימת",
+      weight: 0.10,
+      score: Math.round(between(66, 80))
+    },
+    {
+      key: "escalation",
+      name: "סיכון להסלמה כוללת",
+      desc: "טראמפ: 'הפסקת האש נגמרה' · אין ערוץ עומאני פעיל · מסלול תגובה-נגד פתוח",
+      weight: 0.10,
+      score: Math.round(between(70, 84))
     },
   ];
 
@@ -179,19 +208,30 @@ const DATA = (() => {
     return Math.round(between(14, 32) + i * 0.4);
   });
 
-  // ============== מחירי נפט (משקפים פרמיית הורמוז) ==============
-  const brentBase = 96;
-  const wtiBase = 92;
-  const brent = jitter(brentBase, 0.06);
-  const wti = jitter(wtiBase, 0.06);
-  const ovx = between(58, 78);
-  const brentChange = (rand() + 0.1) * 4;
-  const wtiChange = (rand() + 0.1) * 4;
+  // ============== מחירי נפט (הפסקת האש נשברה — פאניקה) ==============
+  const brentBase = 118;
+  const wtiBase = 114;
+  const brent = jitter(brentBase, 0.05);
+  const wti = jitter(wtiBase, 0.05);
+  const ovx = between(78, 96);
+  const brentChange = (rand() + 0.4) * 6;
+  const wtiChange = (rand() + 0.4) * 6;
   const ovxChange = (rand() - 0.3) * 6;
 
+  // גרף נפט 30 יום: מ-$92 להתייצבות סביב $100, ואז זינוק ל-$118 עם שבירת הפסקת האש
   const oilHistory = Array.from({length: 30}, (_, i) => {
     const t = i / 29;
-    const trend = brentBase + Math.sin(t * Math.PI * 2) * 3 + t * 4;
+    let trend;
+    if (t < 0.7) {
+      // 21 ימים ראשונים: התייצבות סביב $95-105
+      trend = 96 + Math.sin(t * Math.PI * 3) * 5;
+    } else if (t < 0.9) {
+      // 6 ימים: התמתנות סביב $100
+      trend = 100 + Math.sin(t * Math.PI * 4) * 4;
+    } else {
+      // 3 ימים אחרונים: זינוק (הפסקת אש נשברה 7/7)
+      trend = 100 + (t - 0.9) * 10 * 18;
+    }
     return +(trend + (rand() - 0.5) * 2.4).toFixed(2);
   });
   oilHistory[oilHistory.length - 1] = +brent.toFixed(2);
@@ -200,93 +240,106 @@ const DATA = (() => {
   const levelFromScore = (s) => s > 80 ? 'CRIT' : s > 65 ? 'HIGH' : s > 45 ? 'MED' : 'LOW';
   const proxies = [
     {
-      name: "IRGC (משמרות המהפכה)",
+      name: "IRGC-Navy · סירות מהירות",
       region: "מצרי הורמוז",
-      metric: "תקיפות רחפנים על שייט (7י׳)",
-      value: Math.round(between(3, 9)),
+      metric: "60+ סירות הושמדו · 12 פעילות שריד (24ש׳)",
+      value: Math.round(between(12, 22)),
       level: null
     },
     {
       name: "חות׳ים (תימן)",
       region: "ים סוף · באב אל-מנדב",
-      metric: "שיגורים לשייט (7י׳)",
-      value: Math.round(between(8, 22)),
+      metric: "שיגורים על שייט (24ש׳)",
+      value: Math.round(between(11, 24)),
       level: null
     },
     {
-      name: "מיליציות עיראק (כת׳איב חיזבאללה)",
-      region: "אל-אסד · עין אל-אסד",
-      metric: "תקיפות על בסיסי ארה״ב (7י׳)",
-      value: Math.round(between(4, 14)),
+      name: "כת׳איב חיזבאללה + AAH",
+      region: "עלי אל-סאלם · עין אל-אסד",
+      metric: "רקטות ורחפנים על בסיסי ארה״ב (24ש׳)",
+      value: Math.round(between(15, 32)),
       level: null
     },
     {
-      name: "כוח קודס",
-      region: "סוריה / עיראק / לבנון",
-      metric: "תנועות מודיעין (אינדקס)",
-      value: Math.round(between(72, 95)),
+      name: "חיזבאללה / חמאס",
+      region: "גבול לבנון וגזרת עזה",
+      metric: "אינדקס מוכנות לפעולה",
+      value: Math.round(between(76, 92)),
       level: null
     },
   ];
   proxies.forEach(p => p.level = levelFromScore(
     p.metric.includes("אינדקס") ? p.value :
-    p.metric.includes("רחפנים") ? Math.min(100, 60 + p.value * 6) :
-    p.metric.includes("שיגורים") ? Math.min(100, p.value * 5) :
-    Math.min(100, p.value * 8)
+    p.metric.includes("סירות") ? 92 :
+    p.metric.includes("שיגורים") ? Math.min(100, 60 + p.value * 3) :
+    p.metric.includes("רקטות") ? Math.min(100, 55 + p.value * 2) :
+    Math.min(100, p.value * 6)
   ));
 
-  // ============== חדשות / איתותים (4 במאי 2026) ==============
+  // ============== חדשות / איתותים (8 ביולי 2026) ==============
   const newsPool = [
-    { time: "שעה", title: "אמירויות: 'תקיפת הרחפנים על מכלית ADNOC היא מעשה פיראטיות של IRGC'", tag: "hawk" },
-    { time: "2ש׳", title: "טראמפ: 'אם השיחות ייכשלו — אפוצץ אותם'", tag: "hawk" },
-    { time: "3ש׳", title: "Project Freedom: ספינה אמריקאית מלווה מכלית ראשונה דרך הורמוז", tag: "neutral" },
-    { time: "4ש׳", title: "טהרן: 'משימת הורמוז של טראמפ מהווה הפרת הפסקת אש'", tag: "hawk" },
-    { time: "6ש׳", title: "אנואר ג'רגאש (יועץ נשיא אמירויות): 'לא ניתן לסמוך על איראן'", tag: "hawk" },
-    { time: "8ש׳", title: "טראמפ: 'אנו מנהלים דיונים מאוד חיוביים עם איראן'", tag: "dove" },
-    { time: "10ש׳", title: "Brent חצה $96 — פרמיית סיכון בהורמוז ברמת שיא", tag: "neutral" },
-    { time: "12ש׳", title: "טראמפ: 'לא מרוצה מהצעת השלום של איראן'", tag: "hawk" },
-    { time: "14ש׳", title: "ארה״ב מכחישה שפריגטה נפגעה ע״י טילים בהורמוז", tag: "neutral" },
-    { time: "18ש׳", title: "אמירויות פרשה רשמית מ-OPEC לאחר עשרות שנים", tag: "neutral" },
-    { time: "22ש׳", title: "עומאן: 'ערוץ דיפלומטי עדיין פתוח בין וושינגטון לטהרן'", tag: "dove" },
-    { time: "26ש׳", title: "טראמפ לקונגרס: 'עוינויות 28 בפברואר הסתיימו עם הפסקת אש'", tag: "neutral" },
+    { time: "20ד׳", title: "🚨 בזק: איראן שיגרה 14 טילים בליסטיים לעבר בסיס עלי אל-סאלם בכווית", tag: "hawk" },
+    { time: "1ש׳", title: "CENTCOM: 'תקפנו 80+ מטרות באיראן — הגנ״א, פיקוד ובקרה, רדארים'", tag: "hawk" },
+    { time: "2ש׳", title: "טראמפ: 'הפסקת האש נגמרה. זה בזבוז זמן לנהל דיאלוג איתם'", tag: "hawk" },
+    { time: "3ש׳", title: "60+ סירות מהירות של IRGC הושמדו בהורמוז", tag: "hawk" },
+    { time: "4ש׳", title: "ארה״ב שוללת רשמית את יכולת איראן למכור נפט בשוק העולמי", tag: "hawk" },
+    { time: "5ש׳", title: "Brent חצה $118 — עלייה של 18% ב-24 שעות", tag: "neutral" },
+    { time: "6ש׳", title: "מוג׳תבא חמינאי (מנהיג עליון חדש) עדיין לא הופיע פומבית", tag: "neutral" },
+    { time: "8ש׳", title: "איראן תקפה 3 מכליות מסחריות בהורמוז — הטריגר להסלמה", tag: "hawk" },
+    { time: "10ש׳", title: "ישראל בכוננות מוגברת · סירן הפעיל בשגרירויות המפרץ", tag: "hawk" },
+    { time: "14ש׳", title: "לוויית אייתאללה חמינאי נמשכת · טהרן, קום, נג'ף, כרבלא", tag: "neutral" },
+    { time: "18ש׳", title: "רוסיה וסין דורשות ישיבת מועצת הביטחון בהולאום", tag: "neutral" },
+    { time: "24ש׳", title: "אלפי חיילים אמריקאים ובני משפחתם מפונים מבסיסים במפרץ", tag: "hawk" },
+    { time: "30ש׳", title: "שר החוץ הסעודי: 'המצב חורג מכל מסגרת דיפלומטית'", tag: "hawk" },
   ];
   // ערבוב מבוסס זרע לשמירה על יציבות בטווח הדקה
   const news = newsPool.sort(() => rand() - 0.5).slice(0, 8);
 
-  // ============== מצרי הורמוז (Strait of Hormuz Status) ==============
-  const stuckShips = Math.round(between(38, 64));
-  const dronesIntercepted = Math.round(between(11, 24));
+  // ============== לוח בזקים · תקיפות פעילות (24ש׳) ==============
+  const stuckShips = Math.round(between(72, 88));
+  const usStrikes = 80 + Math.round(between(4, 24));
+  const iranStrikes = Math.round(between(24, 46));
   const hormuzStats = [
-    { k: "ספינות מסחרית תקועות", v: `${stuckShips}`},
-    { k: "רחפנים יורטו (7י׳)", v: `${dronesIntercepted}`},
-    { k: "ביטוח מלחמה Lloyd's", v: `${(between(2.4, 4.8)).toFixed(1)}% מערך מטען`},
-    { k: "ניתוב מחדש דרך כף התקווה", v: `${Math.round(between(28, 52))} מכליות`},
+    { k: "מטרות איראניות שנפגעו (ארה״ב)", v: `${usStrikes}`},
+    { k: "תקיפות איראניות (24ש׳)", v: `${iranStrikes}`},
+    { k: "ביטוח מלחמה Lloyd's", v: `${(between(9.5, 14.0)).toFixed(1)}% מערך מטען`},
+    { k: "ספינות תקועות בהורמוז", v: `${stuckShips}`},
   ];
 
-  // ============== היסטוריה 30 ימים ==============
+  // ============== היסטוריה 30 ימים (תחילת יוני → סוף יולי) ==============
+  // עלייה איטית בסוף יוני, יציבות במאי-יוני עם Project Freedom, ואז פיצוץ ב-7/7
   const history = Array.from({length: 30}, (_, i) => {
     const t = i / 29;
-    // יום 1 = 7 באפריל (יום הפסקת אש) → ירידה → עליה הדרגתית עם הסלמה
-    const base = 55 + t * 30;
-    return Math.max(35, Math.min(96, Math.round(base + Math.sin(i * 0.55) * 8 + (rand() - 0.5) * 5)));
+    let base;
+    if (t < 0.6) {
+      // 18 ימים ראשונים: 55-72 (מתח מוגבר, הפסקת אש רופפת)
+      base = 60 + Math.sin(i * 0.45) * 8 + t * 12;
+    } else if (t < 0.9) {
+      // 9 ימים: 72-82 (הסלמה מתמשכת, הידרדרות)
+      base = 72 + (t - 0.6) * 30;
+    } else {
+      // 3 ימים אחרונים: זינוק — הפסקת האש נשברה 7/7
+      base = 82 + (t - 0.9) * 100;
+    }
+    return Math.max(50, Math.min(98, Math.round(base + (rand() - 0.5) * 4)));
   });
   history[history.length - 1] = overallScore;
 
   const historyEvents = [
-    "4/5 · תקיפת רחפנים על ADNOC",
-    "3/5 · תחילת Project Freedom",
-    "29/4 · אמירויות יוצאת מ-OPEC",
-    "21/4 · הפסקת אש הוארכה",
-    "7/4 · הפסקת אש ראשונית",
+    "8/7 · איראן תקיפה על בסיסי ארה״ב",
+    "7/7 · ארה״ב תקפה 80+ מטרות באיראן",
+    "7/7 · הפסקת האש נשברה",
+    "4/7 · תחילת לוויית חמינאי",
+    "29/6 · IRGC חוזר לתקיפות על שייט",
   ];
 
-  // ============== כותרות דינמיות ==============
+  // ============== כותרות דינמיות (8/7/2026) ==============
   const headlines = [
-    "Project Freedom פעיל — חיל ים אמריקאי מלווה מכליות דרך הורמוז",
-    "אמירויות מאשימה את IRGC ב'פיראטיות' לאחר תקיפת רחפנים על ADNOC",
-    "טראמפ: 'אם השיחות ייכשלו — אפוצץ אותם' · רטוריקה ברמת שיא",
-    "מנותב מחדש: עשרות מכליות בוחרות בכף התקווה במקום הורמוז",
-    "פרישת אמירויות מ-OPEC משנה את מאזן הברית במפרץ",
+    "🚨 הפסקת האש נשברה · ארה״ב תקפה 80+ מטרות באיראן · איראן הגיבה על בסיסים",
+    "טראמפ: 'הפסקת האש נגמרה — בזבוז זמן לדבר איתם'",
+    "60+ סירות מהירות של IRGC הושמדו בהורמוז · מלחמה ימית פעילה",
+    "מוג׳תבא חמינאי נעדר · שאלת פיקוד באיראן עומדת פתוחה",
+    "Brent חצה $118 · פאניקה בשוקי האנרגיה העולמיים",
   ];
   const headline = headlines[Math.floor(rand() * headlines.length)];
 

@@ -3,11 +3,12 @@
    ============================================================ */
 
 const riskLevel = (score) => {
-  if (score >= 80) return { label: "קריטי",   color: "#ef4444", bg: "rgba(239,68,68,0.15)" };
-  if (score >= 65) return { label: "גבוה",    color: "#fb923c", bg: "rgba(251,146,60,0.15)" };
-  if (score >= 45) return { label: "מוגבר",   color: "#fbbf24", bg: "rgba(251,191,36,0.15)" };
-  if (score >= 25) return { label: "נמוך",    color: "#84cc16", bg: "rgba(132,204,22,0.15)" };
-  return            { label: "רגוע",    color: "#34d399", bg: "rgba(52,211,153,0.15)" };
+  if (score >= 85) return { label: "מלחמה אזורית",       color: "#dc2626", bg: "rgba(220,38,38,0.18)" };
+  if (score >= 70) return { label: "מלחמה מוגבלת פעילה", color: "#ef4444", bg: "rgba(239,68,68,0.15)" };
+  if (score >= 55) return { label: "מלחמת פרוקסי חמה",   color: "#fb923c", bg: "rgba(251,146,60,0.15)" };
+  if (score >= 40) return { label: "מתח מוגבר",          color: "#fbbf24", bg: "rgba(251,191,36,0.15)" };
+  if (score >= 20) return { label: "מתח קר",             color: "#84cc16", bg: "rgba(132,204,22,0.15)" };
+  return            { label: "רגיעה",                    color: "#34d399", bg: "rgba(52,211,153,0.15)" };
 };
 
 const scoreColor = (score) => {
@@ -131,9 +132,7 @@ function renderMap(assets) {
       attributionControl: false,
       scrollWheelZoom: false,
     });
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 10,
-    }).addTo(mapInstance);
+    // tiles disabled for offline preview
 
     // Iran outline approximation polygon
     L.polygon([
@@ -155,8 +154,8 @@ function renderMap(assets) {
   mapLayers.forEach(l => mapInstance.removeLayer(l));
   mapLayers = [];
 
-  const labelFor = (t) => ({ carrier: "CV", ddg: "DDG", amph: "LHD", base: "AB" }[t] || "");
-  const typeHe = (t) => ({ carrier: "נושאת", ddg: "משחתת", amph: "נחיתה", base: "בסיס" }[t] || "");
+  const labelFor = (t) => ({ carrier: "CV", ddg: "DDG", amph: "LHD", base: "AB", strike: "✕" }[t] || "");
+  const typeHe = (t) => ({ carrier: "נושאת", ddg: "משחתת", amph: "נחיתה", base: "בסיס", strike: "מטרה שנפגעה" }[t] || "");
 
   assets.forEach(a => {
     const icon = L.divIcon({
@@ -341,9 +340,9 @@ function renderHormuz(stats, stuckShips) {
     </div>
   `).join("");
 
-  const pct = Math.min(100, (stuckShips / 80) * 100);
+  const pct = Math.min(100, (stuckShips / 120) * 100);
   document.getElementById("stuck-bar").style.width = pct + "%";
-  document.getElementById("stuck-val").textContent = `${stuckShips} / 80`;
+  document.getElementById("stuck-val").textContent = `${stuckShips} / 120`;
 }
 
 /* ---------- History ---------- */
